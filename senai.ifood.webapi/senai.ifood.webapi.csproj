@@ -12,4 +12,9 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
   </ItemGroup>
 
+  <!-- ADICIONAR O senai.ifood.repository.csproj AO PROJETO WEBAPI -->
+  <ItemGroup>
+      <ProjectReference Include="..\senai.ifood.repository\senai.ifood.repository.csproj" />
+  </ItemGroup>
+
 </Project>

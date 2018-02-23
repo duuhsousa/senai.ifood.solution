@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace senai.ifood.domain.Entities
 {
-    public class ProdutoDomain
+    public class ProdutoDomain : BaseDomain
     {
         [Required]
         [StringLength(100)]
