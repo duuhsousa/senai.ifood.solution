@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using senai.ifood.repository.Context;
+using senai.ifood.domain.Contracts;
+using senai.ifood.repository.Repositories;
 
 namespace senai.ifood.webapi
 {
@@ -30,6 +32,17 @@ namespace senai.ifood.webapi
             //############# (dotnet ef migrations add BancoInicial --startup-project ../senai.ifood.webapi/senai.ifood.webapi.csproj)
             //############# ESSE COMANDO CRIA O BANCO DE DADOS UTILIZANDO AS REGRAS DO CONTEXT E A CONEXAO DO json.
             services.AddDbContext<IFoodContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            //DEFINICAO DE DEPENDENCIA DO Repository PARA O Contracts
+            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+
+            //INCLUSAO DO SERVICO DO MVC QUE EH RESPONSAVEL PELAS RESPOSTAS HTTP
+            //O "AddJson" É PARA QUE SEJA POSSIVEL UTILIZAR OS RELACIONAMENTOS (ICollections) DAS ENTIDADE
+            services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,10 +53,8 @@ namespace senai.ifood.webapi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            //UTILIZADO PARA DAR O START DO MVC NO PROJETO
+            app.UseMvc();
         }
     }
 }

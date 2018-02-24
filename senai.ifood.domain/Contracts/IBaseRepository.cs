@@ -2,13 +2,16 @@ using System.Collections.Generic;
 
 namespace senai.ifood.domain.Contracts
 {
-    //TODAS OS REPOSITORIOS IRAO SEGUIR ESSA INTERFACE, IGUAL UM CONTRATO.
+    //TODAS AS CLASSES DO REPOSITORIO IRAO SEGUIR ESSA INTERFACE, IGUAL UM CONTRATO.
     public interface IBaseRepository<T> where T : class
     {
-        IEnumerable<T> Listar();
+        //ADICIONAMOS O INCLUDE PARA NA RESPOSTA O BANCO ENVIAR OS DADOS DAS TABELAS RELACIONADAS
+        IEnumerable<T> Listar(string[] includes = null);
         int Atualizar(T dados);
         int Inserir(T dados);
         int Deletar(T dados);
-        T BuscarPorId(int id);
+
+        //ADICIONAMOS O INCLUDE PARA NA RESPOSTA O BANCO ENVIAR OS DADOS DAS TABELAS RELACIONADAS
+        T BuscarPorId(int id, string[] includes = null);
     }
 }
